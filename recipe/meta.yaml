@@ -1,7 +1,7 @@
 {% set name = "screen" %}
-{% set version = "4.8.0" %}
+{% set version = "4.9.0" %}
 {% set version_printed = "4.08.00" %}  # what screen -v prints
-{% set sha256 = "6e11b13d8489925fde25dfb0935bf6ed71f9eb47eff233a181e078fde5655aa1" %}
+{% set sha256 = "f9335281bb4d1538ed078df78a20c2f39d3af9a4e91c57d084271e0289c730f4" %}
 
 package:
   name: {{ name|lower }}
@@ -12,8 +12,8 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
-  skip: True  # [not unix]
+  number: 0
+  skip: true  # [not unix]
 
 requirements:
   build:
