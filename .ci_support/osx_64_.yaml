@@ -11,9 +11,6 @@ channel_targets:
 macos_machine:
 - x86_64-apple-darwin13.4.0
 ncurses:
-- '6.2'
-pin_run_as_build:
-  ncurses:
-    max_pin: x.x
+- '6'
 target_platform:
 - osx-64
