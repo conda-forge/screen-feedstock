@@ -10,7 +10,6 @@ Package license: GPL-3.0-only
 Summary: Screen is a full-screen window manager that multiplexes a physical terminal between several processes,
 typically interactive shells
 
-
 Development: https://savannah.gnu.org/git/?group=screen
 
 Documentation: https://www.gnu.org/software/screen/manual/screen.html
@@ -38,7 +37,6 @@ simplejson is a simple, fast, complete, correct and extensible
 JSON <https://json.org> encoder and decoder for Python 2.5+ and
 Python 3.3+. It is pure Python code with no dependencies, but
 includes an optional C extension for a serious speed boost.
-
 
 Current build status
 ====================
