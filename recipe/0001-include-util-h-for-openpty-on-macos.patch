@@ -1,0 +1,13 @@
+--- a/pty.c
++++ b/pty.c
+@@ -33,6 +33,10 @@
+ 
+ #if defined(__OpenBSD__)
+ #include <utils.h>  /* for openpty() */
++#endif
++
++#if defined(__APPLE__)
++#include <util.h>  /* for openpty() */
+ #endif
+ 
+ #include "config.h"
