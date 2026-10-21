@@ -10,6 +10,8 @@ package:
 source:
   url: https://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-include-util-h-for-openpty-on-macos.patch
 
 build:
   number: 0
