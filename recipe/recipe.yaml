@@ -2,8 +2,7 @@ schema_version: 1
 
 context:
   name: screen
-  version: "4.9.1"
-  version_printed: "4.09.01"  # what screen -v prints
+  version: "5.0.2"
 
 package:
   name: screen
@@ -11,12 +10,12 @@ package:
 
 source:
   url: https://ftp.gnu.org/gnu/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69
+  sha256: ca9a2c7e240919bc7ac12124593ae4529bb4eb5f7349d8857829b7e3f0b3b332
   patches:
-    - 0001-include-util-h-for-openpty-on-macos.patch
+    - 0001-use-getpwnam-when-pam-is-disabled.patch
 
 build:
-  number: 1
+  number: 0
   skip: not unix
   script:
     - set -o pipefail
@@ -24,7 +23,8 @@ build:
     - export CFLAGS="${CFLAGS} -std=gnu17"
     # configure's -lcurses probe resolves to the macOS SDK stub; use the host ncurses
     - export LIBS="-lncurses"
-    - ./configure --prefix=${PREFIX}
+    # PAM is opt-in in 4.9.1; 5.0.2 enables it by default and configure fails without PAM headers
+    - ./configure --prefix=${PREFIX} --disable-pam
     - make -j${CPU_COUNT} install
 
 requirements:
@@ -43,7 +43,7 @@ tests:
   - script:
       # rattler-build runs with set -e but not pipefail, so a failing `screen -v` would go unnoticed
       - set -o pipefail
-      - screen -v | grep 'Screen version ${{ version_printed }}'
+      - screen -v | grep 'Screen version ${{ version }}'
 
 about:
   homepage: https://www.gnu.org/software/screen/

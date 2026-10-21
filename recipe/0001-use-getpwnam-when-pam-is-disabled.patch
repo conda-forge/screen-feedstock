@@ -1,0 +1,11 @@
+--- a/socket.c
++++ b/socket.c
+@@ -1256,7 +1256,7 @@
+ 		Panic(0, "\r\ncan't get root uid/gid\r\n");
+ 
+ #ifndef _PWD_H
+-	p = getpwnam_shadow(ppp->pw_name);
++	p = getpwnam(ppp->pw_name);
+ #else
+ 	p = getspnam(ppp->pw_name);
+ #endif
