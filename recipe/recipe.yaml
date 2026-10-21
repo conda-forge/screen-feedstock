@@ -16,11 +16,14 @@ source:
     - 0001-include-util-h-for-openpty-on-macos.patch
 
 build:
-  number: 0
+  number: 1
   skip: not unix
   script:
+    - set -o pipefail
     # GCC 15 defaults to C23, which breaks screen's configure and make steps
     - export CFLAGS="${CFLAGS} -std=gnu17"
+    # configure's -lcurses probe resolves to the macOS SDK stub; use the host ncurses
+    - export LIBS="-lncurses"
     - ./configure --prefix=${PREFIX}
     - make -j${CPU_COUNT} install
 
@@ -38,6 +41,8 @@ requirements:
 
 tests:
   - script:
+      # rattler-build runs with set -e but not pipefail, so a failing `screen -v` would go unnoticed
+      - set -o pipefail
       - screen -v | grep 'Screen version ${{ version_printed }}'
 
 about:
