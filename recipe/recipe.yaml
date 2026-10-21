@@ -1,26 +1,36 @@
-{% set name = "screen" %}
-{% set version = "4.9.1" %}
-{% set version_printed = "4.09.01" %}  # what screen -v prints
-{% set sha256 = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69" %}
+schema_version: 1
+
+context:
+  name: screen
+  version: "4.9.1"
+  version_printed: "4.09.01"  # what screen -v prints
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: screen
+  version: ${{ version }}
 
 source:
-  url: https://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://ftp.gnu.org/gnu/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69
   patches:
     - 0001-include-util-h-for-openpty-on-macos.patch
 
 build:
-  number: 0
-  skip: true  # [not unix]
+  number: 1
+  skip: not unix
+  script:
+    - set -o pipefail
+    # GCC 15 defaults to C23, which breaks screen's configure and make steps
+    - export CFLAGS="${CFLAGS} -std=gnu17"
+    # configure's -lcurses probe resolves to the macOS SDK stub; use the host ncurses
+    - export LIBS="-lncurses"
+    - ./configure --prefix=${PREFIX}
+    - make -j${CPU_COUNT} install
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ stdlib('c') }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
     - make
     - texinfo
   host:
@@ -29,19 +39,20 @@ requirements:
   run:
     - ncurses
 
-test:
-  commands:
-    - screen -v | grep 'Screen version {{ version_printed }}'
+tests:
+  - script:
+      # rattler-build runs with set -e but not pipefail, so a failing `screen -v` would go unnoticed
+      - set -o pipefail
+      - screen -v | grep 'Screen version ${{ version_printed }}'
 
 about:
-  home: https://www.gnu.org/software/screen/
+  homepage: https://www.gnu.org/software/screen/
   license: GPL-3.0-only
   license_family: GPL
   license_file: COPYING
   summary: |
-    Screen is a full-screen window manager that multiplexes a physical terminal between several processes, 
+    Screen is a full-screen window manager that multiplexes a physical terminal between several processes,
     typically interactive shells
-
   description: |
     Screen is a full-screen window manager that multiplexes a physical
     terminal between several processes, typically interactive
@@ -66,8 +77,8 @@ about:
     JSON <https://json.org> encoder and decoder for Python 2.5+ and
     Python 3.3+. It is pure Python code with no dependencies, but
     includes an optional C extension for a serious speed boost.
-  doc_url: https://www.gnu.org/software/screen/manual/screen.html
-  dev_url: https://savannah.gnu.org/git/?group=screen
+  documentation: https://www.gnu.org/software/screen/manual/screen.html
+  repository: https://savannah.gnu.org/git/?group=screen
 
 extra:
   recipe-maintainers:

@@ -10,7 +10,6 @@ Package license: GPL-3.0-only
 Summary: Screen is a full-screen window manager that multiplexes a physical terminal between several processes,
 typically interactive shells
 
-
 Development: https://savannah.gnu.org/git/?group=screen
 
 Documentation: https://www.gnu.org/software/screen/manual/screen.html
@@ -38,7 +37,6 @@ simplejson is a simple, fast, complete, correct and extensible
 JSON <https://json.org> encoder and decoder for Python 2.5+ and
 Python 3.3+. It is pure Python code with no dependencies, but
 includes an optional C extension for a serious speed boost.
-
 
 Current build status
 ====================
@@ -69,6 +67,13 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10301&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/screen-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10301&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/screen-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr>
