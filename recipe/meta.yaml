@@ -22,6 +22,7 @@ requirements:
     - make
     - texinfo
   host:
+    - libxcrypt
     - ncurses
   run:
     - ncurses
