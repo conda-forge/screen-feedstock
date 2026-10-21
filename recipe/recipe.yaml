@@ -11,6 +11,8 @@ package:
 source:
   url: https://ftp.gnu.org/gnu/${{ name }}/${{ name }}-${{ version }}.tar.gz
   sha256: ca9a2c7e240919bc7ac12124593ae4529bb4eb5f7349d8857829b7e3f0b3b332
+  patches:
+    - 0001-use-getpwnam-when-pam-is-disabled.patch
 
 build:
   number: 0
@@ -21,7 +23,8 @@ build:
     - export CFLAGS="${CFLAGS} -std=gnu17"
     # configure's -lcurses probe resolves to the macOS SDK stub; use the host ncurses
     - export LIBS="-lncurses"
-    - ./configure --prefix=${PREFIX}
+    # PAM is opt-in in 4.9.1; 5.0.2 enables it by default and configure fails without PAM headers
+    - ./configure --prefix=${PREFIX} --disable-pam
     - make -j${CPU_COUNT} install
 
 requirements:
